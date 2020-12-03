@@ -15,11 +15,26 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieDto> getMovies() {
-        return movieDao.getMovies();
+        return movieDao.findAll();
     }
 
     @Override
-    public Integer addMovie(MovieDto movieDto) {
-        return movieDao.addMovie(movieDto);
+    public void addMovie(MovieDto movieDto) {
+        movieDao.addMovie(movieDto);
+    }
+
+    @Override
+    public List<MovieDto> findByName(String name) {
+        return movieDao.findByName(name);
+    }
+
+    @Override
+    public List<MovieDto> findByDirector(String director) {
+        return movieDao.findByDirector(director);
+    }
+
+    @Override
+    public List<MovieDto> findByGenre(String genre) {
+        return movieDao.findByGenre(genre);
     }
 }

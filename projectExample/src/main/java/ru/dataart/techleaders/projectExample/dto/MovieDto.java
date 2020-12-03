@@ -2,12 +2,10 @@ package ru.dataart.techleaders.projectExample.dto;
 
 import lombok.*;
 
-import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public class MovieDto {
 
@@ -16,5 +14,5 @@ public class MovieDto {
     private String releaseDate;
     private String country;
     private String director;
-    private String genre;
+    private List<String> genres;
 }

@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface MovieDao {
 
-    List<MovieDto> getMovies();
-
     void createTable();
-
-    Integer addMovie(MovieDto movieDto);
+    void addMovie(MovieDto movieDto);
+    List<MovieDto> findAll();
+    MovieDto findById(Integer id);
+    List<MovieDto> findByName(String name);
+    List<MovieDto> findByDirector(String director);
+    List<MovieDto> findByGenre(String genre);
 }
