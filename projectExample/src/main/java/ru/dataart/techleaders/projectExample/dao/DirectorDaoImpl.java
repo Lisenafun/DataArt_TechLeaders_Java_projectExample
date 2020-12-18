@@ -1,19 +1,19 @@
 package ru.dataart.techleaders.projectExample.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.dataart.techleaders.projectExample.dto.DirectorDto;
 
 import java.sql.*;
 
 @Repository
+@RequiredArgsConstructor
 public class DirectorDaoImpl implements DirectorDao {
 
-    @Autowired
-    private Authorization authorization;
+    private final Authorization authorization;
 
     @Override
-    public Integer findByName(String name) {
+    public Integer findDirectorByName(String name) {
         String sql = "SELECT id FROM Directors WHERE UPPER(name) LIKE ?;";
         Integer id = null;
         try(Connection connection = DriverManager.getConnection(authorization.getUrl(), authorization.getUser(), authorization.getPassword())) {
@@ -21,7 +21,7 @@ public class DirectorDaoImpl implements DirectorDao {
             name = name.toUpperCase();
             ps.setString(1, "%" + name + "%");
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while(rs.next()) {
                 id = rs.getInt("id");
             }
         } catch(SQLException ex) {
@@ -31,14 +31,14 @@ public class DirectorDaoImpl implements DirectorDao {
     }
 
     @Override
-    public String findById(Integer id) {
+    public String findDirectorById(Integer id) {
         String sql = "SELECT name FROM Directors WHERE id = ?;";
         String name = null;
         try(Connection connection = DriverManager.getConnection(authorization.getUrl(), authorization.getUser(), authorization.getPassword())) {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()){
+            while(rs.next()) {
                 name = rs.getString("name");
             }
         } catch(SQLException ex) {
@@ -49,16 +49,14 @@ public class DirectorDaoImpl implements DirectorDao {
 
     @Override
     public void addDirector(DirectorDto directorDto) {
-        String insertDirector = "INSERT INTO Directors (id, name)"
-                + "VALUES (?, ?);";
-        try (Connection connection = DriverManager.getConnection (authorization.getUrl(), authorization.getUser(), authorization.getPassword())) {
-            PreparedStatement statementDir =
-                    connection.prepareStatement (insertDirector);
+        String insertDirector = "INSERT INTO Directors (id, name)" + "VALUES (?, ?);";
+        try(Connection connection = DriverManager.getConnection(authorization.getUrl(), authorization.getUser(), authorization.getPassword())) {
+            PreparedStatement statementDir = connection.prepareStatement(insertDirector);
             statementDir.setInt(1, directorDto.getId());
             statementDir.setString(2, directorDto.getName());
             statementDir.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace ();
+        } catch(SQLException e) {
+            e.printStackTrace();
         }
     }
 }

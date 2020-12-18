@@ -1,14 +1,20 @@
 package ru.dataart.techleaders.projectExample.services;
 
-import ru.dataart.techleaders.projectExample.dto.MovieDto;
+import ru.dataart.techleaders.projectExample.dto.MovieDtoForUI;
 
 import java.util.List;
 
 public interface MovieService {
-    
-    List<MovieDto> getMovies();
-    void addMovie(MovieDto movieDto);
-    List<MovieDto> findByName(String name);
-    List<MovieDto> findByDirector(String director);
-    List<MovieDto> findByGenre(String genre);
+
+    void addMovie(MovieDtoForUI movieForUI);
+
+    MovieDtoForUI findById(Integer id);
+
+    List<MovieDtoForUI> findByName(String name);
+
+    List<MovieDtoForUI> findByDirector(String director);
+
+    List<MovieDtoForUI> findByGenre(String genre);
+
+    List<MovieDtoForUI> getMovies();
 }

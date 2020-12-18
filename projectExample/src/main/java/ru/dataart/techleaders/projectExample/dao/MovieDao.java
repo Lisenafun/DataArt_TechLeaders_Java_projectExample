@@ -1,16 +1,22 @@
 package ru.dataart.techleaders.projectExample.dao;
 
-import ru.dataart.techleaders.projectExample.dto.MovieDto;
+import ru.dataart.techleaders.projectExample.dto.MovieDtoForDB;
 
 import java.util.List;
 
 public interface MovieDao {
 
     void createTable();
-    void addMovie(MovieDto movieDto);
-    List<MovieDto> findAll();
-    MovieDto findById(Integer id);
-    List<MovieDto> findByName(String name);
-    List<MovieDto> findByDirector(String director);
-    List<MovieDto> findByGenre(String genre);
+
+    void addMovie(MovieDtoForDB movieDto);
+
+    List<MovieDtoForDB> findAllMovies();
+
+    MovieDtoForDB findMovieById(Integer id);
+
+    List<MovieDtoForDB> findMovieByName(String name);
+
+    List<MovieDtoForDB> findMovieByDirector(Integer director);
+
+    List<MovieDtoForDB> findMovieByGenre(Integer genre);
 }

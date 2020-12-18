@@ -4,7 +4,9 @@ import ru.dataart.techleaders.projectExample.dto.DirectorDto;
 
 public interface DirectorDao {
 
-    Integer findByName(String name);
-    String findById(Integer id);
+    Integer findDirectorByName(String name);
+
+    String findDirectorById(Integer id);
+
     void addDirector(DirectorDto directorDto);
 }
