@@ -2,6 +2,8 @@ package ru.dataart.techleaders.projectExample.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.dataart.techleaders.projectExample.dao.DirectorDao;
+import ru.dataart.techleaders.projectExample.dao.GenreDao;
 import ru.dataart.techleaders.projectExample.dao.MovieDao;
 import ru.dataart.techleaders.projectExample.dto.MovieDtoForDB;
 import ru.dataart.techleaders.projectExample.dto.MovieDtoForUI;
@@ -15,17 +17,17 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieDao movieDao;
 
-    private final GenreService genreService;
+    private final GenreDao genreDao;
 
-    private final DirectorService directorService;
+    private final DirectorDao directorDao;
 
     @Override
     public void addMovie(MovieDtoForUI movieForUI) {
         movieDao.addMovie(converterToMovieDto(movieForUI));
         List<String> genres = movieForUI.getGenres();
         List<Integer> genresId = new ArrayList<>();
-        genres.forEach(genre -> genresId.add(genreService.findGenreByName(genre)));
-        genresId.forEach(genreId -> genreService.addGenreOfMovie(movieForUI.getId(), genreId));
+        genres.forEach(genre -> genresId.add(genreDao.findGenreByName(genre)));
+        genresId.forEach(genreId -> genreDao.addGenreOfMovie(movieForUI.getId(), genreId));
     }
 
     @Override
@@ -46,13 +48,13 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieDtoForUI> findByDirector(String director) {
-        Integer directorId = directorService.findDirectorByName(director);
+        Integer directorId = directorDao.findDirectorByName(director);
         return getListMovieDtoForUI(movieDao.findMovieByDirector(directorId));
     }
 
     @Override
     public List<MovieDtoForUI> findByGenre(String genre) {
-        Integer genreId = genreService.findGenreByName(genre);
+        Integer genreId = genreDao.findGenreByName(genre);
         return getListMovieDtoForUI(movieDao.findMovieByGenre(genreId));
     }
 
@@ -63,12 +65,12 @@ public class MovieServiceImpl implements MovieService {
         movieForUI.setCountry(movieDto.getCountry());
         movieForUI.setReleaseDate(movieDto.getReleaseDate());
 
-        String director = directorService.findDirectorById(movieDto.getDirectorId());
+        String director = directorDao.findDirectorById(movieDto.getDirectorId());
         movieForUI.setDirector(director);
 
-        List<Integer> genresIdList = genreService.findGenreByMovieId(movieDto.getId());
+        List<Integer> genresIdList = genreDao.findGenreByMovieId(movieDto.getId());
         List<String> genres = new ArrayList<>();
-        genresIdList.forEach(genresId -> genres.add(genreService.findGenreById(genresId)));
+        genresIdList.forEach(genresId -> genres.add(genreDao.findGenreById(genresId)));
         movieForUI.setGenres(genres);
 
         return movieForUI;
@@ -81,7 +83,7 @@ public class MovieServiceImpl implements MovieService {
         movieDto.setCountry(movieForUI.getCountry());
         movieDto.setReleaseDate(movieForUI.getReleaseDate());
 
-        Integer directorId = directorService.findDirectorByName(movieForUI.getDirector());
+        Integer directorId = directorDao.findDirectorByName(movieForUI.getDirector());
         movieDto.setDirectorId(directorId);
 
         return movieDto;
